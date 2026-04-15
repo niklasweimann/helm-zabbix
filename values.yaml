@@ -235,6 +235,8 @@ zabbixagent:
     pullPolicy: IfNotPresent
     # -- List of dockerconfig secrets names to use when pulling images
     pullSecrets: []
+  # -- This variable is a unique, case sensitive hostname for the Zabbix agent. Defaults to the Kubernetes node name (``spec.nodeName``). Set this to override the default hostname with a static value. Can also be overridden via ``extraEnv`` to use a Kubernetes downward API field (e.g. ``spec.nodeName``, ``metadata.name``).
+  # ZBX_HOSTNAME:
   # -- Zabbix server host
   ZBX_SERVER_HOST: 127.0.0.1
   # -- Zabbix server port
@@ -268,7 +270,7 @@ zabbixagent:
     # -- Annotations for the zabbix-agent service
     annotations: {}
     # metallb.universe.tf/address-pool: production-public-ips
-  # -- Extra environment variables. A list of additional environment variables. See example: https://github.com/cetic/helm-zabbix/blob/master/docs/example/kind/values.yaml
+  # -- Extra environment variables. A list of additional environment variables. Supports ``value`` and ``valueFrom`` (e.g. Kubernetes downward API). See example: https://github.com/cetic/helm-zabbix/blob/master/docs/example/kind/values.yaml
   extraEnv: []
   # -- additional volumeMounts to the zabbix agent container
   extraVolumeMounts: []
