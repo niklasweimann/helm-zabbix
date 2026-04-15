@@ -235,7 +235,7 @@ zabbixagent:
     pullPolicy: IfNotPresent
     # -- List of dockerconfig secrets names to use when pulling images
     pullSecrets: []
-  # -- This variable is a unique, case sensitive hostname for the Zabbix agent. In the server deployment it defaults to "Zabbix server", in the proxy statefulset it defaults to the pod name. Set this to override the default hostname. Can also be overridden via ``extraEnv``.
+  # -- This variable is a unique, case sensitive hostname for the Zabbix agent. Defaults to the Kubernetes node name (``spec.nodeName``). Set this to override the default hostname with a static value. Can also be overridden via ``extraEnv`` to use a Kubernetes downward API field (e.g. ``spec.nodeName``, ``metadata.name``).
   # ZBX_HOSTNAME:
   # -- Zabbix server host
   ZBX_SERVER_HOST: 127.0.0.1

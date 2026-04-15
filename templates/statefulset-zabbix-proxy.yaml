@@ -64,7 +64,7 @@ spec:
               {{- else }}
               valueFrom:
                 fieldRef:
-                  fieldPath: metadata.name
+                  fieldPath: spec.nodeName
               {{- end }}
             - name: ZBX_SERVER_HOST
               value: {{ .Values.zabbixagent.ZBX_SERVER_HOST | quote }}
