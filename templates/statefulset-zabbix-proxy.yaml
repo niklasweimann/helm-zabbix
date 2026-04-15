@@ -59,13 +59,9 @@ spec:
           imagePullPolicy: {{ .Values.zabbixagent.image.pullPolicy }}
           env:
             - name: ZBX_HOSTNAME
-              {{- if .Values.zabbixagent.ZBX_HOSTNAME }}
-              value: {{ .Values.zabbixagent.ZBX_HOSTNAME | quote }}
-              {{- else }}
               valueFrom:
                 fieldRef:
-                  fieldPath: spec.nodeName
-              {{- end }}
+                  fieldPath: metadata.name
             - name: ZBX_SERVER_HOST
               value: {{ .Values.zabbixagent.ZBX_SERVER_HOST | quote }}
             - name: ZBX_SERVER_PORT
@@ -84,17 +80,9 @@ spec:
               value: {{ .Values.zabbixagent.ZBX_TIMEOUT | quote }}
             - name: ZBX_LOADMODULE
               value: {{ .Values.zabbixagent.ZBX_LOADMODULE | quote }}
-            {{- with .Values.zabbixagent.extraEnv }}
-            {{- range . }}
-            - name: {{ .name | quote }}
-              {{- if hasKey . "value" }}
-              value: {{ .value | quote }}
-              {{- end }}
-              {{- $rest := omit . "name" "value" }}
-              {{- if $rest }}
-{{ toYaml $rest | nindent 14 }}
-              {{- end }}
-            {{- end }}
+            {{- range $item := .Values.zabbixagent.extraEnv }}
+            - name: {{ $item.name }}
+              value: {{ $item.value | quote }}
             {{- end }}
           ports:
             - name: zabbix-agent
