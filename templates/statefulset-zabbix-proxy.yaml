@@ -85,7 +85,16 @@ spec:
             - name: ZBX_LOADMODULE
               value: {{ .Values.zabbixagent.ZBX_LOADMODULE | quote }}
             {{- with .Values.zabbixagent.extraEnv }}
-            {{- toYaml . | nindent 12 }}
+            {{- range . }}
+            - name: {{ .name | quote }}
+              {{- if hasKey . "value" }}
+              value: {{ .value | quote }}
+              {{- end }}
+              {{- $rest := omit . "name" "value" }}
+              {{- if $rest }}
+{{ toYaml $rest | nindent 14 }}
+              {{- end }}
+            {{- end }}
             {{- end }}
           ports:
             - name: zabbix-agent
